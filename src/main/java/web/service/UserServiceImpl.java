@@ -15,8 +15,8 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public void addUser(String firstName, String lastName, String email) {
-        userDao.addUser(firstName, lastName, email);
+    public void addUser(User user) {
+        userDao.addUser(user);
     }
 
     @Override

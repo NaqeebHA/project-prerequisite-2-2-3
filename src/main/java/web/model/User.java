@@ -1,5 +1,7 @@
 package web.model;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,7 +20,6 @@ public class User {
 
     @Column(name = "email")
     private String email;
-
 
     public User() {}
 
@@ -60,4 +61,13 @@ public class User {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
