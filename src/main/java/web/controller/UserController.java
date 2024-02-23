@@ -3,10 +3,7 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
 
@@ -24,9 +21,33 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public String registerUser(@ModelAttribute User user, Model model) {
+    public String addUser(@ModelAttribute User user, Model model) {
         userService.addUser(user);
-        System.out.println("Added User: " + user.toString());
+        model.addAttribute("userForm", new User());
+        model.addAttribute("users", userService.getUserList());
+        return "users";
+    }
+
+
+    @GetMapping("/edit")
+    public String editUser(@RequestParam("id") @ModelAttribute Long id, Model model) {
+        model.addAttribute("editUserForm", new User());
+        model.addAttribute("id", id);
+        model.addAttribute("users", userService.getUserList());
+        return "edit";
+    }
+
+    @PostMapping("/edited")
+    public String postEditUser(@ModelAttribute User newUser, @RequestParam("id") Long id, Model model) {
+        userService.updateUserById(id, newUser.getFirstName(), newUser.getLastName(), newUser.getEmail());
+        model.addAttribute("userForm", new User());
+        model.addAttribute("users", userService.getUserList());
+        return "users";
+    }
+
+    @GetMapping("/delete")
+    public String deleteUser(@RequestParam("id") Long id, Model model) {
+        userService.deleteUserById(id);
         model.addAttribute("userForm", new User());
         model.addAttribute("users", userService.getUserList());
         return "users";
