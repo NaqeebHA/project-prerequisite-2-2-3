@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
 
+import java.util.List;
+
 @Controller
 public class UserController {
 
@@ -16,7 +18,8 @@ public class UserController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("userForm", new User());
-        model.addAttribute("users", userService.getUserList());
+        List<User> userList= userService.getUserList();
+        model.addAttribute("users", userList);
         return "users";
     }
 
@@ -25,7 +28,7 @@ public class UserController {
         userService.addUser(user);
         model.addAttribute("userForm", new User());
         model.addAttribute("users", userService.getUserList());
-        return "users";
+        return "redirect:/";
     }
 
 
@@ -33,16 +36,14 @@ public class UserController {
     public String editUser(@RequestParam("id") @ModelAttribute Long id, Model model) {
         model.addAttribute("editUserForm", new User());
         model.addAttribute("id", id);
-        model.addAttribute("users", userService.getUserList());
+        model.addAttribute("user", userService.getUserById(id));
         return "edit";
     }
 
     @PostMapping("/edited")
     public String postEditUser(@ModelAttribute User newUser, @RequestParam("id") Long id, Model model) {
         userService.updateUserById(id, newUser.getFirstName(), newUser.getLastName(), newUser.getEmail());
-        model.addAttribute("userForm", new User());
-        model.addAttribute("users", userService.getUserList());
-        return "users";
+        return "redirect:/";
     }
 
     @GetMapping("/delete")
@@ -50,6 +51,6 @@ public class UserController {
         userService.deleteUserById(id);
         model.addAttribute("userForm", new User());
         model.addAttribute("users", userService.getUserList());
-        return "users";
+        return "redirect:/";
     }
 }

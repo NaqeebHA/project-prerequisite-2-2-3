@@ -41,13 +41,17 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void updateUserById(Long id, String newFirstName, String newLastName, String newEmail) {
-        String updateQuery = "UPDATE User SET firstName = :newFirstName, lastName = :newLastName, email = :newEmail WHERE id = :id";
         entityManager.getTransaction().begin();
+        User userToUpdate = entityManager.find(User.class, id);
+        userToUpdate.setFirstName(newFirstName);
+        userToUpdate.setLastName(newLastName);
+        userToUpdate.setEmail(newEmail);
+        String updateQuery = "UPDATE User SET firstName = :newFirstName, lastName = :newLastName, email = :newEmail WHERE id = :id";
         entityManager.createQuery(updateQuery)
                 .setParameter("id", id)
-                .setParameter("newFirstName", newFirstName)
-                .setParameter("newLastName", newLastName)
-                .setParameter("newEmail", newEmail)
+                .setParameter("newFirstName", userToUpdate.getFirstName())
+                .setParameter("newLastName", userToUpdate.getLastName())
+                .setParameter("newEmail", userToUpdate.getEmail())
                 .executeUpdate();
         entityManager.getTransaction().commit();
     }

@@ -23,6 +23,27 @@
 </style>
 <body>
 
+<h1>User to Edit</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.email}"></td>
+    </tr>
+    </tbody>
+</table>
+
 <h1>Edit User</h1>
 
 <form th:action="@{/edited(id=${id})}" th:method="post" th:object="${editUserForm}">
@@ -38,35 +59,6 @@
     <br><br>
     <button type="submit">Edit User</button>
 </form>
-
-
-<h1>User List</h1>
-
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>FirstName</th>
-        <th>LastName</th>
-        <th>Email</th>
-        <th>Edit</th>
-        <th>Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.id}"></td>
-        <td th:text="${user.firstName}"></td>
-        <td th:text="${user.lastName}"></td>
-        <td th:text="${user.email}"></td>
-        <td><a th:href="@{/edit(id=${user.id})}">Edit</a></td>
-        <td><a th:href="@{/delete(id=${user.id})}">Delete</a></td>
-    </tr>
-    </tbody>
-</table>
-
-
-
 
 </body>
 </html>
